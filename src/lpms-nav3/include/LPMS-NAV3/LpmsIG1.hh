@@ -3,7 +3,6 @@
 #include <string>
 #include <cstring>
 #include <thread>
-#include <iostream>
 #include <fstream>
 #ifdef _WIN32
 #include <comutil.h>
@@ -12,10 +11,7 @@
 #include <queue>
 #include <vector>
 #include <cstdio>
-#include <sstream>
-#include <iomanip>
 
-#include "LPMS-NAV3/LpmsIG1Registers.hh"
 #include "LPMS-NAV3/MicroMeasure.hh"
 #include "LPMS-NAV3/SensorData.hh"
 #include "LPMS-NAV3/SerialPort.hh"
@@ -142,7 +138,7 @@ struct IG1Command
     bool sent;
     bool processed;
 
-    IG1Command(short cmd = 0, int response = WAIT_FOR_ACKNACK)
+    explicit IG1Command(short cmd = 0, int response = WAIT_FOR_ACKNACK)
     {
         command = cmd;
         dataLength = 0;

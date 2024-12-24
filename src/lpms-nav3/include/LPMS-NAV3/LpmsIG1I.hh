@@ -4,7 +4,6 @@
 #include "windows.h"
 #endif
 #include "LPMS-NAV3/SensorDataI.hh"
-#include "LPMS-NAV3/LpLog.hh"
 
 // Note: To be deprecated
 #define COMMUNICATION_INTERFACE_232     0

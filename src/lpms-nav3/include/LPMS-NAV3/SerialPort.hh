@@ -1,24 +1,19 @@
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
-#include <sstream>
+#include <cstdio>
+#include <cstdlib>
 
 #ifdef _WIN32
 #include <windows.h>
 #include "SiUSBXp.h"
 #elif __linux__ 
-#include <stdio.h>      // standard input / output functions
-#include <stdlib.h>
-#include <errno.h>
+#include <cerrno>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <asm/termbits.h>
 #include <cstring>
 #include <libudev.h>
-#include <iterator> 
 #include <map> 
 #endif
 #include "LPMS-NAV3/LpLog.hh"

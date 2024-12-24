@@ -1,24 +1,19 @@
 #pragma once
-#include <cstdio>
 #include <cstdarg>
+#include <cstdint>
+#include <cstdio>
+#include <ctime>
 #include <string>
-#include <stdint.h>
-#include <time.h>
-#include <sstream>
-#include <algorithm>
+#include <utility>
 
-#include "LPMS-NAV3/LpMatrix.hh"
-
-#define FORMAT_SPACE    0
-#define FORMAT_CSV      1
-#define FORMAT_YAML     2
-
+#define FORMAT_SPACE 0
+#define FORMAT_CSV   1
+#define FORMAT_YAML  2
 
 union float2char {
     float float_val;
     uint8_t c[4];
 };
-
 
 union double2char {
     double double_val;
@@ -40,8 +35,7 @@ union int2char {
     uint8_t c[4];
 };
 
-union cArray2intArray
-{
+union cArray2intArray {
     int16_t int_val[5];
     uint8_t c[10];
 };
@@ -52,18 +46,17 @@ union floatArray2char {
     uint8_t c[24];
 };
 
-//void logd(std::string tag, const char* str, ...);
+// void logd(std::string tag, const char* str, ...);
 
 const std::string currentDateTime(const char* format);
-const int currentDateTimeInt();
+int currentDateTimeInt();
 
-struct MyException : public std::exception
-{
+struct MyException : public std::exception {
     std::string s;
-    MyException(std::string ss) : s(ss) {}
-    ~MyException() throw () {} // Updated
+    explicit MyException(std::string ss)
+        : s(std::move(ss)) {}
+    ~MyException() throw() {} // Updated
     const char* what() const throw() { return s.c_str(); }
 };
-
 
 std::string trimString(std::string s);

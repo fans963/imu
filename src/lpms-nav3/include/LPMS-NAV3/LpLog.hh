@@ -3,9 +3,7 @@
 #include <cstdio>
 #include <cstdarg>
 #include <string>
-#include <stdint.h>
-#include <time.h>
-#include <sstream>
+#include <ctime>
 
 // Verbose level
 enum {
@@ -39,7 +37,7 @@ class LpLog
             verboseLevel = level;
         }
 
-        void d(std::string tag, const char* str, ...)
+        void d(const std::string& tag, const char* str, ...) const
         {
             if (verboseLevel < VERBOSE_DEBUG)
                 return;
@@ -51,7 +49,7 @@ class LpLog
             va_end(a_list);
         } 
 
-        void i(std::string tag, const char* str, ...)
+        void i(const std::string& tag, const char* str, ...) const
         {
             if (verboseLevel < VERBOSE_INFO)
                 return;
@@ -63,7 +61,7 @@ class LpLog
             va_end(a_list);
         } 
 
-        void e(std::string tag, const char* str, ...)
+        static void e(const std::string& tag, const char* str, ...)
         {
             va_list a_list;
             va_start(a_list, str);

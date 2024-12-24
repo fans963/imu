@@ -1,5 +1,5 @@
 #include "LPMS-NAV3/LpUtil.hh"
-#include <iomanip>
+#include <algorithm>
 
 /*
 void logd(std::string tag, const char* str, ...)
@@ -27,7 +27,7 @@ const std::string currentDateTime(const char* format)
 }
 
 
-const int currentDateTimeInt()
+int currentDateTimeInt()
 {
     time_t     now = time(0);
     struct tm  tstruct;

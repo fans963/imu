@@ -1,6 +1,6 @@
 #pragma once
 
-#include <math.h>
+#include <cmath>
 
 #ifdef __IAR_SYSTEMS_ICC__
 # include <stdint.h>
@@ -11,27 +11,27 @@ typedef union _float2int {
 } float2int;
 #endif
 
-typedef struct _LpMatrix3x3f {
+typedef struct LpMatrix3x3f {
     float data[3][3];
 } LpMatrix3x3f;
 
-typedef struct _LpMatrix3x4f {
+typedef struct LpMatrix3x4f {
     float data[3][4];
 } LpMatrix3x4f;
 
-typedef struct _LpMatrix4x3f {
+typedef struct LpMatrix4x3f {
     float data[4][3];
 } LpMatrix4x3f;
 
-typedef struct _LpMatrix4x4f {
+typedef struct LpMatrix4x4f {
     float data[4][4];
 } LpMatrix4x4f;
 
-typedef struct _LpVector3f {
+typedef struct LpVector3f {
     float data[3];
 } LpVector3f;
 
-typedef struct _LpVector4f {
+typedef struct LpVector4f {
     float data[4];
 } LpVector4f;
 
