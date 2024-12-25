@@ -1,5 +1,5 @@
 #pragma once
-#include "LPMS-NAV3/LpMatrix.hh"
+#include "lpms_nav3/LpMatrix.hh"
 #include <cstdint>
 #include <cstdio>
 #include <cstring>

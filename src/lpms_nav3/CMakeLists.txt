@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.8)
-project(lpms-nav3)
+project(lpms_nav3)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c23")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
+
+set(CMAKE_THREAD_LIBS_INIT "-lpthread")
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-O3 -Os -Wall -Wextra -Wpedantic)

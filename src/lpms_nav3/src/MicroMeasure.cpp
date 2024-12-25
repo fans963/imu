@@ -1,4 +1,4 @@
-#include "LPMS-NAV3/MicroMeasure.hh"
+#include "lpms_nav3/MicroMeasure.hh"
 
 #include <sys/time.h>
 

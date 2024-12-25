@@ -17,6 +17,10 @@ find_package(yaml-cpp REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 
 ament_auto_add_executable (
   ${PROJECT_NAME}_exe
@@ -26,6 +30,10 @@ ament_auto_add_executable (
 ament_target_dependencies(${PROJECT_NAME}_exe
  rclcpp 
  std_msgs
+ tf2
+ tf2_ros
+ sensor_msgs
+ lpms_nav3
 )
 
 target_link_libraries(${PROJECT_NAME}_exe

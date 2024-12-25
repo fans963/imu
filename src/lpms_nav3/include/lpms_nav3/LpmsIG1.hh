@@ -12,11 +12,11 @@
 #include <vector>
 #include <cstdio>
 
-#include "LPMS-NAV3/MicroMeasure.hh"
-#include "LPMS-NAV3/SensorData.hh"
-#include "LPMS-NAV3/SerialPort.hh"
+#include "lpms_nav3/MicroMeasure.hh"
+#include "lpms_nav3/SensorData.hh"
+#include "lpms_nav3/SerialPort.hh"
 
-#include "LPMS-NAV3/LpmsIG1I.hh"
+#include "lpms_nav3/LpmsIG1I.hh"
 
 ///////////////////////////////////////
 // LPMod bus

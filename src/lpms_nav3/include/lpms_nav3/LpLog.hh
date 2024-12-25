@@ -4,6 +4,7 @@
 #include <cstdarg>
 #include <string>
 #include <ctime>
+#include "util/logging.hpp"
 
 // Verbose level
 enum {
@@ -44,7 +45,7 @@ class LpLog
             va_list a_list;
             va_start(a_list, str);
             if (!tag.empty())
-                printf("[ %4s] [ %-8s]: ", "DBUG", tag.c_str());
+                LOG_WARN("[%s]: ", tag.c_str());
             vprintf(str, a_list);
             va_end(a_list);
         } 
@@ -56,7 +57,7 @@ class LpLog
             va_list a_list;
             va_start(a_list, str);
             if (!tag.empty())
-                printf("[ %4s] [ %-8s]: ", "INFO", tag.c_str());
+                LOG_INFO("[%s]: ", tag.c_str());
             vprintf(str, a_list);
             va_end(a_list);
         } 
@@ -66,7 +67,7 @@ class LpLog
             va_list a_list;
             va_start(a_list, str);
             if (!tag.empty())
-                printf("[ %4s] [ %-8s]: ", "ERR", tag.c_str());
+                LOG_ERROR("[%s]: ", tag.c_str());
             vprintf(str, a_list);
             va_end(a_list);
         } 

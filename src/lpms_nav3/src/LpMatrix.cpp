@@ -1,4 +1,4 @@
-#include "LPMS-NAV3/LpMatrix.hh"
+#include "lpms_nav3/LpMatrix.hh"
 
 void matZero3x3(LpMatrix3x3f* dest) {
     dest->data[0][0] = 0;

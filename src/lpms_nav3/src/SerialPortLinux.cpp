@@ -1,6 +1,6 @@
 
-#include "LPMS-NAV3/LpUtil.hh"
-#include "LPMS-NAV3/SerialPort.hh"
+#include "lpms_nav3/LpUtil.hh"
+#include "lpms_nav3/SerialPort.hh"
 using namespace std;
 
 Serial::Serial():

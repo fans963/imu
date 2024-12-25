@@ -1,12 +1,12 @@
 #pragma once
-#include "LPMS-NAV3/LpMatrix.hh"
-#include "LPMS-NAV3/LpUtil.hh"
-#include "LPMS-NAV3/LpmsIG1Registers.hh"
+#include "lpms_nav3/LpMatrix.hh"
+#include "lpms_nav3/LpUtil.hh"
+#include "lpms_nav3/LpmsIG1Registers.hh"
 #include <cstdio>
 #include <sstream>
 #include <string>
 
-#include "LPMS-NAV3/SensorDataI.hh"
+#include "lpms_nav3/SensorDataI.hh"
 
 struct IG1ImuData :IG1ImuDataI
 {

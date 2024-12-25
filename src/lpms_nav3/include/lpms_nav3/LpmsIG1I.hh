@@ -3,7 +3,7 @@
 #ifdef _WIN32
 #include "windows.h"
 #endif
-#include "LPMS-NAV3/SensorDataI.hh"
+#include "lpms_nav3/SensorDataI.hh"
 
 // Note: To be deprecated
 #define COMMUNICATION_INTERFACE_232     0

@@ -1,5 +1,5 @@
-#include "LPMS-NAV3/LpmsIG1.hh"
-#include "LPMS-NAV3/LpUtil.hh"
+#include "lpms_nav3/LpmsIG1.hh"
+#include "lpms_nav3/LpUtil.hh"
 
 using namespace std;
 #ifdef _WIN32

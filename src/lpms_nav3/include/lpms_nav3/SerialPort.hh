@@ -16,7 +16,7 @@
 #include <libudev.h>
 #include <map> 
 #endif
-#include "LPMS-NAV3/LpLog.hh"
+#include "lpms_nav3/LpLog.hh"
 
 const static int INCOMING_DATA_MAX_LENGTH = 2048;
 
