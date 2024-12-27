@@ -10,14 +10,13 @@ void logd(std::string tag, const char* str, ...)
         printf("[ %-8s] ", tag.c_str());
     vprintf(str, a_list);
     va_end(a_list);
-} 
+}
 */
 
-const std::string currentDateTime(const char* format)
-{
-    time_t     now = time(0);
-    struct tm  tstruct;
-    char       buf[80];
+const std::string currentDateTime(const char* format) {
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
     tstruct = *localtime(&now);
     // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
     // for more information about date/time format
@@ -26,24 +25,20 @@ const std::string currentDateTime(const char* format)
     return buf;
 }
 
-
-int currentDateTimeInt()
-{
-    time_t     now = time(0);
-    struct tm  tstruct;
+int currentDateTimeInt() {
+    time_t now = time(0);
+    struct tm tstruct;
     tstruct = *localtime(&now);
     // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
     // for more information about date/time format
-    int ret = (2000+tstruct.tm_year-100) * 10000 + (tstruct.tm_mon+1) * 100 + tstruct.tm_mday;
+    int ret = (2000 + tstruct.tm_year - 100) * 10000 + (tstruct.tm_mon + 1) * 100 + tstruct.tm_mday;
 
     return ret;
 }
 
-
-std::string trimString(std::string s)
-{
+std::string trimString(std::string s) {
     std::string ret = s;
-    //ret.resize(ret.find('\0'));
+    // ret.resize(ret.find('\0'));
     ret.erase(std::find(ret.begin(), ret.end(), '\0'), ret.end());
     return ret;
 }

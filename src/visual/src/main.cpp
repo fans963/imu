@@ -8,7 +8,6 @@
 #include <rclcpp/executors.hpp>
 #include <rclcpp/utilities.hpp>
 #include <string>
-#include <thread>
 
 int main(int argc, char** argv) {
     static std::atomic<bool> running(true);
@@ -24,11 +23,11 @@ int main(int argc, char** argv) {
 
     rclcpp::init(argc, argv);
 
-    const auto port          = config::node({"serialPort"}).as<std::string>();
-    const auto baudRate      = config::node({"baudRate"}).as<int>();
-    const auto autoReconnect = config::node({"autoReconnect"}).as<bool>();
-    const auto frameId       = config::node({"frameId"}).as<std::string>();
-    const auto updateRate    = config::node({"updateRate"}).as<int>();
+    const auto port          = config::value<std::string>({"serialPort"}, "/dev/ttyUSB0");
+    const auto baudRate      = config::value<int>({"baudRate"}, 115200);
+    const auto autoReconnect = config::value<bool>({"autoReconnect"}, true);
+    const auto frameId       = config::value<std::string>({"frameId"}, "imu");
+    const auto updateRate    = config::value<int>({"updateRate"}, 200);
     auto imu =
         std::make_shared<imu::LpNAV3Proxy>(port, baudRate, autoReconnect, frameId, updateRate);
     imu->run();

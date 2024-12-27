@@ -1,32 +1,31 @@
 #pragma once
 
 #ifdef _WIN32
-#include "windows.h"
+# include "windows.h"
 #endif
 #include "lpms_nav3/SensorDataI.hh"
 
 // Note: To be deprecated
-#define COMMUNICATION_INTERFACE_232     0
-#define COMMUNICATION_INTERFACE_485     1
+#define COMMUNICATION_INTERFACE_232 0
+#define COMMUNICATION_INTERFACE_485 1
 
 // Connection Interface
-#define CONNECTION_INTERFACE_RS232_USB  0
-#define CONNECTION_INTERFACE_RS485      1
+#define CONNECTION_INTERFACE_RS232_USB 0
+#define CONNECTION_INTERFACE_RS485     1
 
 // Sensor status
-#define STATUS_DISCONNECTED             0
-#define STATUS_CONNECTING               1
-#define STATUS_CONNECTED                2
-#define STATUS_CONNECTION_ERROR         3
-#define STATUS_DATA_TIMEOUT             4
-#define STATUS_UPDATING                 5
+#define STATUS_DISCONNECTED     0
+#define STATUS_CONNECTING       1
+#define STATUS_CONNECTED        2
+#define STATUS_CONNECTION_ERROR 3
+#define STATUS_DATA_TIMEOUT     4
+#define STATUS_UPDATING         5
 
 // Sensor mode
-#define SENSOR_MODE_COMMAND             0
-#define SENSOR_MODE_STREAMING           1
+#define SENSOR_MODE_COMMAND   0
+#define SENSOR_MODE_STREAMING 1
 
-class IG1I
-{
+class IG1I {
 public:
     const std::string TAG = "IG1";
     /////////////////////////////////////////////
@@ -38,9 +37,9 @@ public:
     /////////////////////////////////////////////
     // Connection
     /////////////////////////////////////////////
-    virtual void setPCBaudrate(int baud) =0;
+    virtual void setPCBaudrate(int baud) = 0;
 #ifdef _WIN32
-    virtual void setPCPort(int port) =0;
+    virtual void setPCPort(int port) = 0;
 #else
     virtual void setPCPort(std::string port) = 0;
 #endif
@@ -52,12 +51,12 @@ public:
         - _portno: In windows, this the number attached to COM port. eg 3 for COM3
         - baudrate: serial baudrate
     Returns: sensor status
-        - STATUS_DISCONNECTED    
-        - STATUS_CONNECTING      
-        - STATUS_CONNECTED       
+        - STATUS_DISCONNECTED
+        - STATUS_CONNECTING
+        - STATUS_CONNECTED
         - STATUS_CONNECTION_ERROR
-        - STATUS_DATA_TIMEOUT    
-        - STATUS_UPDATING        
+        - STATUS_DATA_TIMEOUT
+        - STATUS_UPDATING
     */
     virtual int connect(int _portno, int _baudrate) = 0;
 
@@ -67,12 +66,12 @@ public:
         - sensorName: sensor ID
         - baudrate: serial baudrate
     Returns: sensor status
-        - STATUS_DISCONNECTED    
-        - STATUS_CONNECTING      
-        - STATUS_CONNECTED       
+        - STATUS_DISCONNECTED
+        - STATUS_CONNECTING
+        - STATUS_CONNECTED
         - STATUS_CONNECTION_ERROR
-        - STATUS_DATA_TIMEOUT    
-        - STATUS_UPDATING        
+        - STATUS_DATA_TIMEOUT
+        - STATUS_UPDATING
     */
     virtual int connect(std::string sensorName, int _baudrate) = 0;
 #else
@@ -84,21 +83,21 @@ public:
                    or sensor ID
         - baudrate: serial baudrate
     Returns: sensor status
-        - STATUS_DISCONNECTED    
-        - STATUS_CONNECTING      
-        - STATUS_CONNECTED       
+        - STATUS_DISCONNECTED
+        - STATUS_CONNECTING
+        - STATUS_CONNECTED
         - STATUS_CONNECTION_ERROR
-        - STATUS_DATA_TIMEOUT    
-        - STATUS_UPDATING        
+        - STATUS_DATA_TIMEOUT
+        - STATUS_UPDATING
     */
     virtual int connect(std::string _portno, int _baudrate) = 0;
 #endif
 
-    virtual bool disconnect() = 0;
+    virtual bool disconnect()       = 0;
     virtual int getReconnectCount() = 0;
     /*
     Function: Set connection interface
-    Parameters: 
+    Parameters:
         - interface:
             CONNECTION_INTERFACE_RS232_USB  for USB/RS232 connection
             CONNECTION_INTERFACE_RS485      for RS485 connection
@@ -107,7 +106,7 @@ public:
 
     /*
     Function: Set gpio control pin
-    Parameters: 
+    Parameters:
         - interface:
             CONNECTION_INTERFACE_RS232_USB  for USB/RS232 connection
             CONNECTION_INTERFACE_RS485      for RS485 connection
@@ -115,13 +114,12 @@ public:
     virtual void setControlGPIOForRs485(int gpio) = 0;
 
     /*
-    Function: Set time to wait before toggling io pin during host TX transfer. 
-    Only applies to RS485 connection 
+    Function: Set time to wait before toggling io pin during host TX transfer.
+    Only applies to RS485 connection
     Parameters:  wait time in ms
     Return: none
     */
     virtual void setControlGPIOToggleWaitMs(unsigned int ms) = 0;
-
 
     /////////////////////////////////////////////
     // Commands:
@@ -144,52 +142,52 @@ public:
     */
     virtual void commandGotoStreamingMode(void) = 0;
 
-	/*
-	Function:
-	- send command to sensor to get sensor ID
-    - hasSettings() will return true once sensor info is available
-	Parameters: none
+    /*
+    Function:
+    - send command to sensor to get sensor ID
+- hasSettings() will return true once sensor info is available
+    Parameters: none
+Returns: none
+    */
+    virtual void commandGetSensorID(void) = 0;
+
+    /*
+    Function:
+    - send command to sensor to set sensor ID
+    Parameters: int32
     Returns: none
-	*/
-	virtual void commandGetSensorID(void) = 0;
+    */
+    virtual void commandSetSensorID(uint32_t id) = 0;
 
-	/*
-	Function:
-	- send command to sensor to set sensor ID
-	Parameters: int32
-	Returns: none
-	*/
-	virtual void commandSetSensorID(uint32_t id) = 0;
-
-	/*
-	Function:
-	- send command to sensor to get/set sensor Frenquency
-	- hasInfo() will return true once sensor info is available
-	Parameters: 
-        #define DATA_STREAM_FREQ_5HZ                    5
-        #define DATA_STREAM_FREQ_10HZ                   10
-        #define DATA_STREAM_FREQ_50HZ                   50
-        #define DATA_STREAM_FREQ_100HZ                  100
-        #define DATA_STREAM_FREQ_250HZ                  250
-        #define DATA_STREAM_FREQ_500HZ                  500
-        #define DATA_STREAM_FREQ_1000HZ                 1000
-	Returns: none
-	*/
-	virtual void commandGetSensorFrequency(void) = 0;
-	virtual void commandSetSensorFrequency(uint32_t freq) = 0;
+    /*
+    Function:
+    - send command to sensor to get/set sensor Frenquency
+    - hasInfo() will return true once sensor info is available
+    Parameters:
+    #define DATA_STREAM_FREQ_5HZ                    5
+    #define DATA_STREAM_FREQ_10HZ                   10
+    #define DATA_STREAM_FREQ_50HZ                   50
+    #define DATA_STREAM_FREQ_100HZ                  100
+    #define DATA_STREAM_FREQ_250HZ                  250
+    #define DATA_STREAM_FREQ_500HZ                  500
+    #define DATA_STREAM_FREQ_1000HZ                 1000
+    Returns: none
+    */
+    virtual void commandGetSensorFrequency(void)          = 0;
+    virtual void commandSetSensorFrequency(uint32_t freq) = 0;
 
     /*
     Function:
     - send command to sensor to get/set sensor gyro range
     - hasSettings() will return true once sensor info is available
-    Parameters: 
+    Parameters:
         #define GYR_RANGE_400DPS                        400
         #define GYR_RANGE_1000DPS                       1000
         #define GYR_RANGE_2000DPS                       2000
     Returns: none
     */
-	virtual void commandGetSensorGyroRange(void) = 0;
-	virtual void commandSetSensorGyroRange(uint32_t range) = 0;
+    virtual void commandGetSensorGyroRange(void)           = 0;
+    virtual void commandSetSensorGyroRange(uint32_t range) = 0;
 
     /*
     Function:
@@ -211,31 +209,30 @@ public:
         #define ACC_RANGE_16G                           16
     Returns: none
     */
-	virtual void commandGetSensorAccRange(void) = 0;
-	virtual void commandSetSensorAccRange(uint32_t range) = 0;
+    virtual void commandGetSensorAccRange(void)           = 0;
+    virtual void commandSetSensorAccRange(uint32_t range) = 0;
 
     /*
     Function:
     - send command to sensor to get/set sensor mag range
     - hasSettings() will return true once sensor info is available
-    Parameters:    
+    Parameters:
         #define MAG_RANGE_2GUASS                        2
         #define MAG_RANGE_8GUASS                        8
     Returns: none
     */
-	virtual void commandGetSensorMagRange(void) = 0;
-	virtual void commandSetSensorMagRange(uint32_t range) = 0;
+    virtual void commandGetSensorMagRange(void)           = 0;
+    virtual void commandSetSensorMagRange(uint32_t range) = 0;
 
     /*
     Function:
     - send command to sensor to start/stop sensor mag calibration
-     You can set the time for the magnetometer calibration use commandSetSensorMagCalibrationTimeout(second) 
-     [Default is 20 seconds]
-    Parameters: none
-    Returns: none
+     You can set the time for the magnetometer calibration use
+    commandSetSensorMagCalibrationTimeout(second) [Default is 20 seconds] Parameters: none Returns:
+    none
     */
     virtual void commandStartMagCalibration(void) = 0;
-    virtual void commandStopMagCalibration(void) = 0;
+    virtual void commandStopMagCalibration(void)  = 0;
 
     /*
     Function:
@@ -244,8 +241,8 @@ public:
     Parameters: none
     Returns: none
     */
-    //virtual void commandGetMagRefrence(void) = 0;
-    //virtual void commandSetMagRefrence(uint32_t reference) = 0;
+    // virtual void commandGetMagRefrence(void) = 0;
+    // virtual void commandSetMagRefrence(uint32_t reference) = 0;
 
     /*
     Function:
@@ -254,11 +251,11 @@ public:
     Parameters: none
     Returns: none
     */
-    virtual void commandGetSensorMagCalibrationTimeout(void) = 0;
+    virtual void commandGetSensorMagCalibrationTimeout(void)         = 0;
     virtual void commandSetSensorMagCalibrationTimeout(float second) = 0;
 
     /*
-    Function: 
+    Function:
         - send command to sensor to get sensor info
         - hasInfo() will return true once sensor info is available
     Parameters: none
@@ -299,7 +296,7 @@ public:
     Parameters:int32
     Returns: none
     */
-    virtual void commandGetCanStartId(void) = 0;
+    virtual void commandGetCanStartId(void)          = 0;
     virtual void commandSetCanStartId(uint32_t data) = 0;
 
     /*
@@ -314,7 +311,7 @@ public:
         #define LPMS_CAN_BAUDRATE_1M                    1000
     Returns: none
     */
-    virtual void commandGetCanBaudrate(void) = 0;
+    virtual void commandGetCanBaudrate(void)              = 0;
     virtual void commandSetCanBaudrate(uint32_t baudrate) = 0;
 
     /*
@@ -323,10 +320,10 @@ public:
     - hasSettings() will return true once sensor info is available
     Parameters:
         #define LPMS_CAN_DATA_PRECISION_FIXED_POINT     0
-        #define LPMS_CAN_DATA_PRECISION_FLOATING_POINT  1   
+        #define LPMS_CAN_DATA_PRECISION_FLOATING_POINT  1
     Returns: none
     */
-    virtual void commandGetCanDataPrecision(void) = 0;
+    virtual void commandGetCanDataPrecision(void)          = 0;
     virtual void commandSetCanDataPrecision(uint32_t data) = 0;
 
     /*
@@ -338,7 +335,7 @@ public:
         #define LPMS_CAN_MODE_SEQUENTIAL                1
     Returns: none
     */
-    virtual void commandGetCanChannelMode(void) = 0;
+    virtual void commandGetCanChannelMode(void)          = 0;
     virtual void commandSetCanChannelMode(uint32_t data) = 0;
 
     /*
@@ -349,7 +346,7 @@ public:
         each can channel is a (uint32_t)CanMapping.
     Returns: none
     */
-    virtual void commandGetCanMapping(void) = 0;
+    virtual void commandGetCanMapping(void)             = 0;
     virtual void commandSetCanMapping(uint32_t map[16]) = 0;
 
     /*
@@ -364,10 +361,10 @@ public:
         #define LPMS_CAN_HEARTBEAT_100                  10
     Returns: none
     */
-    virtual void commandGetCanHeartbeat(void) = 0;
+    virtual void commandGetCanHeartbeat(void)          = 0;
     virtual void commandSetCanHeartbeat(uint32_t data) = 0;
 
-    //Filter
+    // Filter
     /*
     Function:
     - send command to sensor to get/set sensor filter mode
@@ -380,7 +377,7 @@ public:
         #define LPMS_FILTER_DCM_GYR_ACC_MAG     4
     Returns: none
     */
-    virtual void commandGetFilterMode(void) = 0;
+    virtual void commandGetFilterMode(void)          = 0;
     virtual void commandSetFilterMode(uint32_t data) = 0;
 
     /*
@@ -391,23 +388,23 @@ public:
     Returns: none
     */
     virtual void commandSetGyroAutoCalibration(bool enable) = 0;
-    virtual void commandGetGyroAutoCalibration(void) = 0;
+    virtual void commandGetGyroAutoCalibration(void)        = 0;
 
-    //Offset Mode
+    // Offset Mode
     /*
     Function:
     - send command to sensor to set offset
     - hasSettings() will return true once sensor info is available
-    Parameters: 
+    Parameters:
         #define LPMS_OFFSET_MODE_OBJECT         0
         #define LPMS_OFFSET_MODE_HEADING        1
         #define LPMS_OFFSET_MODE_ALIGNMENT      2
     Returns: none
     */
     virtual void commandSetOffsetMode(uint32_t data) = 0;
-    virtual void commandResetOffsetMode(void) = 0;
+    virtual void commandResetOffsetMode(void)        = 0;
 
-    //GPS
+    // GPS
     /*
     Function:
     - send command to sensor to save/clear gps flash
@@ -415,7 +412,7 @@ public:
     Parameters:
     Returns: none
     */
-    virtual void commandSaveGPSState(void) = 0;
+    virtual void commandSaveGPSState(void)  = 0;
     virtual void commandClearGPSState(void) = 0;
 
     /*
@@ -426,7 +423,7 @@ public:
     Returns: none
     */
     virtual void commandSetGpsTransmitData(uint32_t data, uint32_t data1) = 0;
-    virtual void commandGetGpsTransmitData(void) = 0;
+    virtual void commandGetGpsTransmitData(void)                          = 0;
 
     // Uart
     /*
@@ -438,8 +435,8 @@ public:
     Returns: none
     */
     virtual void commandSetUartBaudRate(uint32_t data) = 0;
-    virtual void commandGetUartBaudRate(void) = 0;
-	
+    virtual void commandGetUartBaudRate(void)          = 0;
+
     /*
     Function:
     - send command to sensor to get/set uart data format
@@ -450,7 +447,7 @@ public:
     Returns: none
     */
     virtual void commandSetUartDataFormat(uint32_t data) = 0;
-    virtual void commandGetUartDataFormat(void) = 0;
+    virtual void commandGetUartDataFormat(void)          = 0;
 
     /*
     Function:
@@ -462,19 +459,18 @@ public:
     Returns: none
     */
     virtual void commandSetUartDataPrecision(uint32_t data) = 0;
-    virtual void commandGetUartDataPrecision(void) = 0;
+    virtual void commandGetUartDataPrecision(void)          = 0;
 
     /*
     Function:
     - send command to sensor directly bypassing internal command queue
-    Parameters: 
+    Parameters:
     - cmd: command register
     - length: length of data to send
     - data: pointer to data buffer
     Returns: none
     */
     virtual void sendCommand(uint16_t cmd, uint16_t length, uint8_t* data) = 0;
-
 
     /////////////////////////////////////////////
     // Sensor interface
@@ -500,12 +496,12 @@ public:
     /*
     Function: get enable auto reconnection status
     Parameters: none
-    Returns: 
+    Returns:
     - true: enable
     - false: disable
     */
     virtual bool getAutoReconnectStatus(void) = 0;
-    
+
     /*
     Function: get status of sensor
     Parameters:none
@@ -530,7 +526,7 @@ public:
     /*
     Function: has new sensor info. consume once
     Parameters:none
-    Returns: 
+    Returns:
     - true: new sensor info available
     - false: no new sensor info available
     */
@@ -541,13 +537,13 @@ public:
     Parameters: reference IG1Info
     Returns: none
     */
-    virtual void getInfo(IG1InfoI &info) = 0;
+    virtual void getInfo(IG1InfoI& info) = 0;
 
-    // settings  
+    // settings
     /*
     Function: has new sensor settings. consume once
     Parameters:none
-    Returns: 
+    Returns:
     - true: new sensor settings available
     - false: no new sensor settings available
     */
@@ -558,9 +554,9 @@ public:
     Parameters: reference IG1Settings
     Returns: none
     */
-    virtual void getSettings(IG1SettingsI &settings) = 0;
+    virtual void getSettings(IG1SettingsI& settings) = 0;
 
-    // response from sensor 
+    // response from sensor
     /*
     Function: has feedback from sensor after command sent
     Parameters : none
@@ -575,7 +571,7 @@ public:
     - true : feedback valid and available
     - false : no feedback available
     */
-    virtual bool getResponse(std::string &s) = 0;
+    virtual bool getResponse(std::string& s) = 0;
 
     // Imu data
     /*
@@ -592,7 +588,7 @@ public:
     - true : data pop from queue
     - false :   queue is empty, return latest imu data
     */
-    virtual bool getImuData(IG1ImuDataI &sd) = 0;
+    virtual bool getImuData(IG1ImuDataI& sd) = 0;
 
     // gps data
     /*
@@ -609,7 +605,7 @@ public:
     - true : data pop from queue
     - false : queue is empty, return latest gps data
     */
-    virtual bool getGpsData(IG1GpsDataI &data) = 0;
+    virtual bool getGpsData(IG1GpsDataI& data) = 0;
 
     // Sensor data
     /*
@@ -766,16 +762,16 @@ public:
     virtual bool isTemperatureEnabled(void) = 0;
 
     /**
-    * Get current data queue size (default: 10)
-    */
+     * Get current data queue size (default: 10)
+     */
     virtual int getSensorDataQueueSize(void) = 0;
 
-    // Error 
+    // Error
     virtual std::string getLastErrMsg() = 0;
 
     /*
     Function: Set library verbosity output
-    Parameters: 
+    Parameters:
         - VERBOSE_NONE
         - VERBOSE_INFO
         - VERBOSE_DEBUG
@@ -785,15 +781,15 @@ public:
 };
 
 #ifdef _WIN32
-    #ifdef DLL_EXPORT
-        #define LPMS_IG1_API __declspec(dllexport)
-    #else
-        #define LPMS_IG1_API __declspec(dllimport)
-    #endif
+# ifdef DLL_EXPORT
+#  define LPMS_IG1_API __declspec(dllexport)
+# else
+#  define LPMS_IG1_API __declspec(dllimport)
+# endif
 
-    extern "C" LPMS_IG1_API	IG1I* APIENTRY IG1Factory();
+extern "C" LPMS_IG1_API IG1I* APIENTRY IG1Factory();
 
 #else
-    #define LPMS_IG1_API
-    extern "C" LPMS_IG1_API IG1I* IG1Factory();
+# define LPMS_IG1_API
+extern "C" LPMS_IG1_API IG1I* IG1Factory();
 #endif

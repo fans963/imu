@@ -6,8 +6,7 @@
 #include <iostream>
 #include <memory>
 #include <mutex>
-#include <ostream>
-#include <thread>
+#include <yaml-cpp/exceptions.h>
 #include <yaml-cpp/node/node.h>
 
 namespace config {
@@ -20,14 +19,42 @@ static inline void load(const std::string& configFile) {
     spdlog::info("Config file loaded from {}", configFile);
 }
 
-template <size_t N>
-static inline auto node(const char* (&&keys)[N]) {
+template <typename T, size_t N>
+static inline auto value(const char* (&&keys)[N], const T&& default_value) {
     std::lock_guard<std::mutex> locker(mutex_);
     auto node = YAML::Clone(*root_);
-    for (const auto& key : keys) {
-        node = node[key];
+    try {
+        for (const auto& key : keys)
+            node = node[key];
+        return node.as<T>();
+    } catch (const YAML::Exception& e) {
+        std::string log = "Failed to get value from key: ";
+        for (const auto& key : keys) {
+            log += "/";
+            log += key;
+        }
+        spdlog::info(log);
+        spdlog::info("Using default value: {}", default_value);
+        return default_value;
     }
-    return node;
 }
 
-} // namespace fan
+template <typename T, size_t N>
+static inline void value(T&& t, const char* (&&keys)[N], const T&& default_value) {
+    std::lock_guard<std::mutex> locker(mutex_);
+    auto node = YAML::Clone(*root_);
+    try {
+        for (const auto& key : keys)
+            node = node[key];
+        t = node.as<T>();
+    } catch (const YAML::Exception& e) {
+        std::string log = "Failed to get value from key: ";
+        for (const auto& key : keys) {
+            log += "/";
+            log += key;
+        }
+        spdlog::info(log);
+        t = default_value;
+    }
+}
+} // namespace config

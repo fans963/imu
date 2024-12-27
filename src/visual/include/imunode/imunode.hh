@@ -1,8 +1,8 @@
 #pragma once
 #include <chrono>
 #include <fstream>
-#include <spdlog/spdlog.h>
 #include <string>
+#include <sys/stat.h>
 #include <thread>
 
 #include "config/config.hh"
@@ -55,9 +55,17 @@ public:
         // this->get_parameter("frameId_", frameId_);
         // this->get_parameter("rate", rate);
 
-        // 创建数据记录文件
+        // 创建imudata文件夹
+        std::string folder_name = "imudata";
+        if (mkdir(folder_name.c_str(), 0777) == -1) {
+            if (errno != EEXIST) {
+                RCLCPP_ERROR(
+                    this->get_logger(), "Failed to create folder: %s", folder_name.c_str());
+            }
+        }
+        // 创建数据记录文件并保存到imudata文件夹
         std::string file_name = "imu_data_" + std::to_string(std::time(nullptr)) + ".txt";
-        file.open(file_name, std::ios::out);
+        file.open(folder_name + "/" + file_name, std::ios::out);
         if (!file.is_open()) {
             RCLCPP_ERROR(this->get_logger(), "Failed to open file: %s", file_name.c_str());
         } else {
@@ -149,10 +157,6 @@ public:
             RCLCPP_INFO(this->get_logger(), "Sensor connection error: %d.", sensor1->getStatus());
             rclcpp::shutdown();
         }
-
-        velocity_.x = velocity_.y = velocity_.z = 0.0;
-        position_.x = position_.y = position_.z = 0.0;
-        first_measurement_                      = true;
     }
 
     ~LpNAV3Proxy(void) {
@@ -472,11 +476,5 @@ private:
 
     // File stream for data logging
     std::ofstream file;
-
-    // 添加平移相关变量
-    geometry_msgs::msg::Vector3 velocity_; // 速度
-    geometry_msgs::msg::Vector3 position_; // 位置
-    rclcpp::Time last_update_time_;        // 上次更新时间
-    bool first_measurement_;               // 第一次测量标志
 };
 } // namespace imu
